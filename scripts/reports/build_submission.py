@@ -73,7 +73,6 @@ def main():
     p('Deliverable 1: Reproducible ML Pipeline', 'Heading2')
     p('<br/>'.join(f'<b>{escape(member["name"])}</b> — {escape(member["student_id"])}'
                    for member in metadata['team']))
-    p(f'Prepared: {metadata["prepared_date"]}.')
     p('<b>GitHub:</b> <link href="https://github.com/saadzafar0/modelforge">github.com/saadzafar0/modelforge</link><br/>'
       '<b>DagsHub:</b> <link href="https://dagshub.com/saadzafar0/modelforge">dagshub.com/saadzafar0/modelforge</link><br/>'
       '<b>MLflow:</b> <link href="https://dagshub.com/saadzafar0/modelforge.mlflow">dagshub.com/saadzafar0/modelforge.mlflow</link>')
