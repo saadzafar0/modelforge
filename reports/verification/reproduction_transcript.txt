@@ -1,0 +1,27 @@
+$ git init -q
+
+
+$ git add .
+
+
+$ python -m dvc pull
+A       data/processed/
+A       data/raw/
+A       models/baseline/
+A       models/nas/
+25 files fetched and 22 files added
+
+$ python -m dvc repro
+Stage 'ingest' didn't change, skipping
+Stage 'validate' didn't change, skipping
+Stage 'preprocess' didn't change, skipping
+Stage 'train_baseline' didn't change, skipping
+Stage 'search_and_train' didn't change, skipping
+Stage 'evaluate_baseline' didn't change, skipping
+Stage 'evaluate_nas' didn't change, skipping
+Stage 'compare' didn't change, skipping
+Stage 'register' didn't change, skipping
+Data and pipelines are up to date.
+
+$ python -m dvc status --json
+{}

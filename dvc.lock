@@ -3,28 +3,38 @@ stages:
   ingest:
     cmd: python -m modelforge.pipeline ingest
     deps:
-    - path: modelforge/common.py
+    - path: pyproject.toml
       hash: md5
-      md5: d2663e097b473756ed096cf539d6d02c
-      size: 2174
-      isexec: true
-    - path: modelforge/data.py
-      hash: md5
-      md5: 293c86fb23ce9b530f5039917a4c23f1
-      size: 5873
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
       isexec: true
     - path: requirements.txt
       hash: md5
       md5: ed38bcfe8f76730eb76a88efa79674cd
       size: 9508
       isexec: true
+    - path: src/modelforge/data/pipeline.py
+      hash: md5
+      md5: 3c0ee18ff8fe6eb6fb91ddcfb63ae9d1
+      size: 5889
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
     params:
       params.yaml:
         dataset:
           name: UCI Wisconsin Diagnostic Breast Cancer
-          url: 
+          url:
             https://archive.ics.uci.edu/static/public/17/breast+cancer+wisconsin+diagnostic.zip
-          sha256: 
+          sha256:
             bc154869ef13f753f9e2b5a17e248cfe1ba4b6721db7c4da9f4880e40b05d3af
           expected_rows: 569
           max_rows: 10000
@@ -43,29 +53,39 @@ stages:
       md5: 9e8e2080648d0ae0a4b927e6b9f60dd8.dir
       size: 254907
       nfiles: 4
-    - path: modelforge/common.py
+    - path: pyproject.toml
+      hash: md5
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
+      isexec: true
+    - path: src/modelforge/data/pipeline.py
+      hash: md5
+      md5: 3c0ee18ff8fe6eb6fb91ddcfb63ae9d1
+      size: 5889
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/utils/common.py
       hash: md5
       md5: d2663e097b473756ed096cf539d6d02c
       size: 2174
-      isexec: true
-    - path: modelforge/data.py
-      hash: md5
-      md5: 293c86fb23ce9b530f5039917a4c23f1
-      size: 5873
       isexec: true
     params:
       params.yaml:
         dataset:
           name: UCI Wisconsin Diagnostic Breast Cancer
-          url: 
+          url:
             https://archive.ics.uci.edu/static/public/17/breast+cancer+wisconsin+diagnostic.zip
-          sha256: 
+          sha256:
             bc154869ef13f753f9e2b5a17e248cfe1ba4b6721db7c4da9f4880e40b05d3af
           expected_rows: 569
           max_rows: 10000
           max_features: 30
     outs:
-    - path: reports/validation.json
+    - path: reports/data/validation.json
       hash: md5
       md5: cf8052302b6c1a642256515cb709eed6
       size: 2594
@@ -78,17 +98,12 @@ stages:
       md5: 9e8e2080648d0ae0a4b927e6b9f60dd8.dir
       size: 254907
       nfiles: 4
-    - path: modelforge/common.py
+    - path: pyproject.toml
       hash: md5
-      md5: d2663e097b473756ed096cf539d6d02c
-      size: 2174
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
       isexec: true
-    - path: modelforge/data.py
-      hash: md5
-      md5: 293c86fb23ce9b530f5039917a4c23f1
-      size: 5873
-      isexec: true
-    - path: reports/validation.json
+    - path: reports/data/validation.json
       hash: md5
       md5: cf8052302b6c1a642256515cb709eed6
       size: 2594
@@ -98,13 +113,28 @@ stages:
       md5: ed38bcfe8f76730eb76a88efa79674cd
       size: 9508
       isexec: true
+    - path: src/modelforge/data/pipeline.py
+      hash: md5
+      md5: 3c0ee18ff8fe6eb6fb91ddcfb63ae9d1
+      size: 5889
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
     params:
       params.yaml:
         dataset:
           name: UCI Wisconsin Diagnostic Breast Cancer
-          url: 
+          url:
             https://archive.ics.uci.edu/static/public/17/breast+cancer+wisconsin+diagnostic.zip
-          sha256: 
+          sha256:
             bc154869ef13f753f9e2b5a17e248cfe1ba4b6721db7c4da9f4880e40b05d3af
           expected_rows: 569
           max_rows: 10000
@@ -121,7 +151,7 @@ stages:
       md5: 45b8f546f322eec1453887ba09f517d3.dir
       size: 94884
       nfiles: 6
-    - path: reports/splits.json
+    - path: reports/data/splits.json
       hash: md5
       md5: 52b4494e98fb60dff4d5c8fac5642ba8
       size: 483
@@ -134,27 +164,17 @@ stages:
       md5: 45b8f546f322eec1453887ba09f517d3.dir
       size: 94884
       nfiles: 6
-    - path: modelforge/common.py
+    - path: pyproject.toml
       hash: md5
-      md5: d2663e097b473756ed096cf539d6d02c
-      size: 2174
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
       isexec: true
-    - path: modelforge/model.py
-      hash: md5
-      md5: f590a95e5c06b9fcc335eeb74eb406a5
-      size: 1391
-      isexec: true
-    - path: modelforge/train.py
-      hash: md5
-      md5: 149654da9a60659e7098fd7d08d7bae3
-      size: 9494
-      isexec: true
-    - path: reports/splits.json
+    - path: reports/data/splits.json
       hash: md5
       md5: 52b4494e98fb60dff4d5c8fac5642ba8
       size: 483
       isexec: true
-    - path: reports/validation.json
+    - path: reports/data/validation.json
       hash: md5
       md5: cf8052302b6c1a642256515cb709eed6
       size: 2594
@@ -163,6 +183,26 @@ stages:
       hash: md5
       md5: ed38bcfe8f76730eb76a88efa79674cd
       size: 9508
+      isexec: true
+    - path: src/modelforge/models/mlp.py
+      hash: md5
+      md5: f590a95e5c06b9fcc335eeb74eb406a5
+      size: 1391
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/training/runner.py
+      hash: md5
+      md5: 9630ed03da9164f72d9adfbccb44317d
+      size: 9525
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
       isexec: true
     params:
       params.yaml:
@@ -190,6 +230,359 @@ stages:
     outs:
     - path: models/baseline
       hash: md5
-      md5: d0e2c14b3572eff5d1cc170ac9e7d438.dir
+      md5: cf3aadde357cc2c69328b2cf5710c7ea.dir
       size: 25230
       nfiles: 3
+  search_and_train:
+    cmd: python -m modelforge.pipeline search
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 45b8f546f322eec1453887ba09f517d3.dir
+      size: 94884
+      nfiles: 6
+    - path: pyproject.toml
+      hash: md5
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
+      isexec: true
+    - path: reports/data/splits.json
+      hash: md5
+      md5: 52b4494e98fb60dff4d5c8fac5642ba8
+      size: 483
+      isexec: true
+    - path: reports/data/validation.json
+      hash: md5
+      md5: cf8052302b6c1a642256515cb709eed6
+      size: 2594
+      isexec: true
+    - path: requirements.txt
+      hash: md5
+      md5: ed38bcfe8f76730eb76a88efa79674cd
+      size: 9508
+      isexec: true
+    - path: src/modelforge/models/mlp.py
+      hash: md5
+      md5: f590a95e5c06b9fcc335eeb74eb406a5
+      size: 1391
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/training/runner.py
+      hash: md5
+      md5: 9630ed03da9164f72d9adfbccb44317d
+      size: 9525
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    params:
+      params.yaml:
+        evaluation.selection_rule: validation_macro_f1_then_fewer_parameters
+        project:
+          seed: 42
+          cpu_threads: 1
+        search:
+          trials: 10
+          startup_trials: 4
+          pruning_warmup_epochs: 10
+          hidden_layers:
+          - 1
+          - 4
+          widths:
+          - 32
+          - 64
+          - 128
+          - 256
+          activations:
+          - ReLU
+          - GELU
+          - Tanh
+          dropout:
+          - 0.0
+          - 0.4
+          residual:
+          - false
+          - true
+        tracking:
+          uri: https://dagshub.com/saadzafar0/modelforge.mlflow
+          username: saadzafar0
+          experiment: ModelForge-Deliverable-1
+          model_name: ModelForge-WDBC-MLP
+        training:
+          max_epochs: 100
+          patience: 12
+          batch_size: 64
+          learning_rate: 0.001
+          weight_decay: 0.0001
+          min_delta: 0.0001
+    outs:
+    - path: models/nas
+      hash: md5
+      md5: 9d5966236c6075c3b3e32ce07967c8bc.dir
+      size: 202534
+      nfiles: 9
+  evaluate_baseline:
+    cmd: python -m modelforge.pipeline evaluate-baseline
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 45b8f546f322eec1453887ba09f517d3.dir
+      size: 94884
+      nfiles: 6
+    - path: models/baseline
+      hash: md5
+      md5: cf3aadde357cc2c69328b2cf5710c7ea.dir
+      size: 25230
+      nfiles: 3
+    - path: pyproject.toml
+      hash: md5
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
+      isexec: true
+    - path: requirements.txt
+      hash: md5
+      md5: ed38bcfe8f76730eb76a88efa79674cd
+      size: 9508
+      isexec: true
+    - path: src/modelforge/evaluation/runner.py
+      hash: md5
+      md5: c75b4a94f6f13f970ec134907311a4ee
+      size: 4769
+      isexec: true
+    - path: src/modelforge/models/inference.py
+      hash: md5
+      md5: 2b2b01eeffe8d793c82a946f3a4d1e64
+      size: 1222
+      isexec: true
+    - path: src/modelforge/models/mlp.py
+      hash: md5
+      md5: f590a95e5c06b9fcc335eeb74eb406a5
+      size: 1391
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    params:
+      params.yaml:
+        evaluation:
+          latency_warmups: 20
+          latency_repeats: 200
+          selection_rule: validation_macro_f1_then_fewer_parameters
+        project:
+          seed: 42
+          cpu_threads: 1
+        tracking:
+          uri: https://dagshub.com/saadzafar0/modelforge.mlflow
+          username: saadzafar0
+          experiment: ModelForge-Deliverable-1
+          model_name: ModelForge-WDBC-MLP
+    outs:
+    - path: reports/classification/baseline.json
+      hash: md5
+      md5: 74c3b5f36f3c21a25057c4eab326e64c
+      size: 604
+      isexec: true
+    - path: reports/figures/baseline_confusion_matrix.png
+      hash: md5
+      md5: 8b814852724e051f84373ba485e9d3b3
+      size: 19546
+      isexec: true
+    - path: reports/metrics/baseline.json
+      hash: md5
+      md5: ba3efb1eb135f60836e5684b1418f4aa
+      size: 258
+      isexec: true
+  evaluate_nas:
+    cmd: python -m modelforge.pipeline evaluate-nas
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 45b8f546f322eec1453887ba09f517d3.dir
+      size: 94884
+      nfiles: 6
+    - path: models/nas
+      hash: md5
+      md5: 9d5966236c6075c3b3e32ce07967c8bc.dir
+      size: 202534
+      nfiles: 9
+    - path: pyproject.toml
+      hash: md5
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
+      isexec: true
+    - path: requirements.txt
+      hash: md5
+      md5: ed38bcfe8f76730eb76a88efa79674cd
+      size: 9508
+      isexec: true
+    - path: src/modelforge/evaluation/runner.py
+      hash: md5
+      md5: c75b4a94f6f13f970ec134907311a4ee
+      size: 4769
+      isexec: true
+    - path: src/modelforge/models/inference.py
+      hash: md5
+      md5: 2b2b01eeffe8d793c82a946f3a4d1e64
+      size: 1222
+      isexec: true
+    - path: src/modelforge/models/mlp.py
+      hash: md5
+      md5: f590a95e5c06b9fcc335eeb74eb406a5
+      size: 1391
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    params:
+      params.yaml:
+        evaluation:
+          latency_warmups: 20
+          latency_repeats: 200
+          selection_rule: validation_macro_f1_then_fewer_parameters
+        project:
+          seed: 42
+          cpu_threads: 1
+        tracking:
+          uri: https://dagshub.com/saadzafar0/modelforge.mlflow
+          username: saadzafar0
+          experiment: ModelForge-Deliverable-1
+          model_name: ModelForge-WDBC-MLP
+    outs:
+    - path: reports/classification/nas.json
+      hash: md5
+      md5: e9074b6f7a152885f3642235c2357c82
+      size: 603
+      isexec: true
+    - path: reports/figures/nas_confusion_matrix.png
+      hash: md5
+      md5: 9c68988ef91bfb7ea63c9539d26a6575
+      size: 19402
+      isexec: true
+    - path: reports/metrics/nas.json
+      hash: md5
+      md5: f37b735cbbc1d1fb53679ed8f97d9b38
+      size: 257
+      isexec: true
+  compare:
+    cmd: python -m modelforge.pipeline compare
+    deps:
+    - path: pyproject.toml
+      hash: md5
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
+      isexec: true
+    - path: reports/metrics/baseline.json
+      hash: md5
+      md5: ba3efb1eb135f60836e5684b1418f4aa
+      size: 258
+      isexec: true
+    - path: reports/metrics/nas.json
+      hash: md5
+      md5: f37b735cbbc1d1fb53679ed8f97d9b38
+      size: 257
+      isexec: true
+    - path: src/modelforge/evaluation/runner.py
+      hash: md5
+      md5: c75b4a94f6f13f970ec134907311a4ee
+      size: 4769
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    params:
+      params.yaml:
+        evaluation.selection_rule: validation_macro_f1_then_fewer_parameters
+    outs:
+    - path: reports/metrics/comparison.json
+      hash: md5
+      md5: 7049296a591b7ad8ceed8c2e101d62ba
+      size: 872
+      isexec: true
+  register:
+    cmd: python -m modelforge.pipeline register
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 45b8f546f322eec1453887ba09f517d3.dir
+      size: 94884
+      nfiles: 6
+    - path: models/nas
+      hash: md5
+      md5: 9d5966236c6075c3b3e32ce07967c8bc.dir
+      size: 202534
+      nfiles: 9
+    - path: pyproject.toml
+      hash: md5
+      md5: d8f0877b9a70a7f774888e4d7f33e9f3
+      size: 365
+      isexec: true
+    - path: reports/metrics/nas.json
+      hash: md5
+      md5: f37b735cbbc1d1fb53679ed8f97d9b38
+      size: 257
+      isexec: true
+    - path: src/modelforge/models/inference.py
+      hash: md5
+      md5: 2b2b01eeffe8d793c82a946f3a4d1e64
+      size: 1222
+      isexec: true
+    - path: src/modelforge/models/mlp.py
+      hash: md5
+      md5: f590a95e5c06b9fcc335eeb74eb406a5
+      size: 1391
+      isexec: true
+    - path: src/modelforge/pipeline.py
+      hash: md5
+      md5: f7b48073fc1621080ab8a298cc6cba28
+      size: 1016
+      isexec: true
+    - path: src/modelforge/tracking/registry.py
+      hash: md5
+      md5: 73af5f78d1f07e12ee8ea3e1392e659e
+      size: 2434
+      isexec: true
+    - path: src/modelforge/utils/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    params:
+      params.yaml:
+        tracking:
+          uri: https://dagshub.com/saadzafar0/modelforge.mlflow
+          username: saadzafar0
+          experiment: ModelForge-Deliverable-1
+          model_name: ModelForge-WDBC-MLP
+    outs:
+    - path: reports/tracking/registry.json
+      hash: md5
+      md5: fad89c9e60205151b0ed15ce8e474b13
+      size: 418
+      isexec: true

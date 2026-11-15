@@ -1,0 +1,9 @@
+{
+  "baseline_retraining_test_logits_match_exactly": true,
+  "baseline_retraining_weights_match_exactly": true,
+  "clean_checkout_dvc_pull": true,
+  "dvc_lock_sha256": "c4ff9f3275152983e7db5ab42ee474c5e6e5aa92a9231f335402fc3cb1d67895",
+  "raw_data_and_checkpoint_hashes_match": true,
+  "requirements_sha256": "ff042db43ea73b4a6e526453c580a455326c9b106b4ed22c7a311be7665bb1ca",
+  "restored_pipeline_up_to_date": true
+}

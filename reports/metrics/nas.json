@@ -1,0 +1,9 @@
+{
+  "checkpoint_size_bytes": 10591,
+  "inference_latency_median_ms": 0.0930125,
+  "inference_latency_p95_ms": 0.10491229999999999,
+  "parameter_count": 2018,
+  "test_accuracy": 0.9824561403508771,
+  "test_macro_f1": 0.9809555629802873,
+  "test_rows": 114
+}

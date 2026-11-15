@@ -1,0 +1,11 @@
+{
+  "hosted_predictions_match_local": true,
+  "model_name": "ModelForge-WDBC-MLP",
+  "model_uri": "models:/ModelForge-WDBC-MLP/1",
+  "run_id": "fb66a49240734d50962ec8cf2d1a7164",
+  "stage": "Staging",
+  "tracking_uri": "https://dagshub.com/saadzafar0/modelforge.mlflow",
+  "ui_url": "https://dagshub.com/saadzafar0/modelforge.mlflow/#/models/ModelForge-WDBC-MLP/versions/1",
+  "verified_rows": 114,
+  "version": "1"
+}

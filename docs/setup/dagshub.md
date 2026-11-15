@@ -16,7 +16,7 @@ The Git remote named `origin` still points to GitHub. Git and DVC have separate 
 - `.dvc/config` contains the shared endpoint and default remote, with no credentials.
 - `.dvc/config.local` contains the local S3 credentials and is ignored by Git.
 - DVC's local state cache is configured in `.dvc/tmp/site-cache` on this machine to avoid a permission error at the default system cache location. This setting is local and is not shared through Git.
-- `dvc[s3]` is installed in `.venv`.
+- `dvc[s3]` is installed in `.venv-ml` for the pipeline.
 
 S3-compatible authentication uses the DagsHub token as both `access_key_id` and `secret_access_key`. The HTTP settings `auth basic`, `user`, and `password` are not used for this remote. No AWS account or AWS credentials are needed.
 
