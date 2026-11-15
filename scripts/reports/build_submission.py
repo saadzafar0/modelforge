@@ -105,6 +105,9 @@ def main():
            ['Checkpoint size (KiB)', f'{baseline["checkpoint_size_bytes"]/1024:.2f}', f'{nas["checkpoint_size_bytes"]/1024:.2f}']], [235, 135, 135])
     p('Latency measures a batch-one CPU model forward pass after warm-up; it excludes preprocessing and network time. '
       'A single small test split is a benchmark result, not a claim of broad generalization.', 'CaptionSmall')
+    if baseline['test_accuracy'] > nas['test_accuracy']:
+        p('The baseline scored higher on this held-out split. NAS selected fewer parameters after matching '
+          'the baseline’s validation macro F1; no additional tuning used the test results.', 'CaptionSmall')
     story.append(PageBreak())
 
     # Page 2: two genuine remote run captures required by the assignment.
@@ -115,8 +118,13 @@ def main():
       'a confusion matrix, and a classification report. These screenshots show the actual remote UI.')
     picture('03_mlflow_baseline_run.png', 285, 'Figure 1. Baseline experiment run on the hosted MLflow server.')
     picture('04_mlflow_nas_run.png', 285, 'Figure 2. Main Optuna NAS run on the same hosted server.')
+    architecture = selected['architecture']
+    widths = ' / '.join(str(width) for width in architecture['hidden_sizes'])
+    residual = 'enabled' if architecture['residual'] else 'disabled'
     p(f'NAS completed {selected["trials_completed"]} trials and pruned {selected["trials_pruned"]}. '
-      f'Selected trial: {selected["trial"]}; architecture: {escape(str(selected["architecture"]))}.')
+      f'Selected trial {selected["trial"]}: hidden-layer widths {widths}, '
+      f'{architecture["activation"]} activation, dropout {architecture["dropout"]:.3f}, '
+      f'residual connections {residual}.')
     story.append(PageBreak())
 
     # Page 3: real registry and operational verification.

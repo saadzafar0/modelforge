@@ -1,0 +1,27 @@
+strict digraph {
+"ingest";
+"validate";
+"preprocess";
+"train_baseline";
+"search_and_train";
+"evaluate_baseline";
+"evaluate_nas";
+"compare";
+"register";
+"ingest" -> "validate";
+"ingest" -> "preprocess";
+"validate" -> "preprocess";
+"validate" -> "train_baseline";
+"validate" -> "search_and_train";
+"preprocess" -> "train_baseline";
+"preprocess" -> "search_and_train";
+"preprocess" -> "evaluate_baseline";
+"preprocess" -> "evaluate_nas";
+"preprocess" -> "register";
+"train_baseline" -> "evaluate_baseline";
+"search_and_train" -> "evaluate_nas";
+"search_and_train" -> "register";
+"evaluate_baseline" -> "compare";
+"evaluate_nas" -> "compare";
+"evaluate_nas" -> "register";
+}

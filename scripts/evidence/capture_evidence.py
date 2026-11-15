@@ -58,6 +58,14 @@ def main():
             page.wait_for_function('(value) => document.body.innerText.includes(value)',
                                    arg=expected, timeout=90000)
             page.wait_for_timeout(2500)
+            # Dismiss UI onboarding only; never change the registry or experiment data.
+            page.keyboard.press('Escape')
+            for selector in ('button[aria-label="Close"]', 'button[aria-label="close"]',
+                             '[role="dialog"] button:has(svg[data-icon="close"])'):
+                close = page.locator(selector)
+                if close.count() and close.first.is_visible():
+                    close.first.click()
+            page.wait_for_timeout(700)
             page.screenshot(path=str(output / filename), full_page=False)
             manifest['captures'].append({'file': filename, 'source_url': url,
                                          'expected_visible_text': expected})
@@ -65,21 +73,27 @@ def main():
         # Also retain an overview showing the baseline, parent NAS run, and trial hierarchy.
         overview = f'{settings["uri"]}/#/experiments/{experiment.experiment_id}'
         page.goto(overview, wait_until='domcontentloaded', timeout=90000)
-        page.wait_for_function("() => document.body.innerText.includes('baseline-fixed-MLP')", timeout=90000)
+        # The overview virtualizes rows; the older baseline may be outside the viewport.
+        page.wait_for_function('(name) => document.body.innerText.includes(name)',
+                               arg=settings['experiment'], timeout=90000)
         page.wait_for_timeout(2000)
         page.screenshot(path=str(output / '06_mlflow_experiment_overview.png'), full_page=False)
         manifest['captures'].append({'file': '06_mlflow_experiment_overview.png', 'source_url': overview})
         browser.close()
     graph = subprocess.check_output([sys.executable, '-m', 'dvc', 'dag', '--dot'], text=True)
-    (output / 'dvc_dag.dot').write_text(graph)
+    (output / 'dvc_dag.dot').write_text(graph.rstrip() + '\n')
     subprocess.run(['dot', '-Tpng', '-Gdpi=160', '-Grankdir=TB', '-Gbgcolor=white',
                     '-Nfontname=DejaVu Sans', '-Nfontsize=13', '-Nshape=box', '-Nstyle=rounded,filled',
                     '-Nfillcolor=#eef4ff', '-Ncolor=#5078a0', '-Ecolor=#5078a0',
                     '-o', str(output / '07_dvc_pipeline.png')], input=graph, text=True, check=True)
-    (output / 'dvc_dag.txt').write_text(subprocess.check_output([sys.executable, '-m', 'dvc', 'dag'], text=True))
+    terminal_graph = subprocess.check_output([sys.executable, '-m', 'dvc', 'dag'], text=True)
+    (output / 'dvc_dag.txt').write_text('\n'.join(line.rstrip() for line in terminal_graph.splitlines()).rstrip() + '\n')
     manifest['captures'].append({'file': '07_dvc_pipeline.png',
                                  'source_command': 'dvc dag --dot | dot -Tpng',
                                  'kind': 'rendered actual DVC dependency graph'})
+    if (output / '08_dvc_dag_terminal.png').exists():
+        manifest['captures'].append({'file': '08_dvc_dag_terminal.png',
+                                     'source_command': 'dvc dag', 'kind': 'actual terminal screenshot'})
     write_json(output / 'capture_manifest.json', manifest)
     print('Saved actual DVC graph and capture provenance.')
 

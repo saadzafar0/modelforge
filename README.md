@@ -5,6 +5,8 @@ ModelForge searches for small neural-network architectures for tabular classific
 - [GitHub repository](https://github.com/saadzafar0/modelforge)
 - [DagsHub repository and data storage](https://dagshub.com/saadzafar0/modelforge)
 - [Hosted MLflow experiments and model registry](https://dagshub.com/saadzafar0/modelforge.mlflow)
+- [Four-page Deliverable 1 submission PDF](submission/deliverable_1/ModelForge_Deliverable_1.pdf)
+- [Required screenshots and evidence](screenshots/deleiverable_1/README.md)
 - [Deliverable checklist](docs/deliverables/deliverable_1_checklist.md)
 
 ## Dataset and experiment

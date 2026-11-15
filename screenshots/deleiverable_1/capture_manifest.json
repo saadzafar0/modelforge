@@ -1,0 +1,37 @@
+{
+  "baseline_run_id": "010c4d997e3c45e6b6f3338f597ab8c0",
+  "captures": [
+    {
+      "expected_visible_text": "baseline-fixed-MLP",
+      "file": "03_mlflow_baseline_run.png",
+      "source_url": "https://dagshub.com/saadzafar0/modelforge.mlflow/#/experiments/0/runs/010c4d997e3c45e6b6f3338f597ab8c0"
+    },
+    {
+      "expected_visible_text": "main-Optuna-NAS",
+      "file": "04_mlflow_nas_run.png",
+      "source_url": "https://dagshub.com/saadzafar0/modelforge.mlflow/#/experiments/0/runs/fb66a49240734d50962ec8cf2d1a7164"
+    },
+    {
+      "expected_visible_text": "Staging",
+      "file": "05_registered_model_staging.png",
+      "source_url": "https://dagshub.com/saadzafar0/modelforge.mlflow/#/models/ModelForge-WDBC-MLP/versions/1"
+    },
+    {
+      "file": "06_mlflow_experiment_overview.png",
+      "source_url": "https://dagshub.com/saadzafar0/modelforge.mlflow/#/experiments/0"
+    },
+    {
+      "file": "07_dvc_pipeline.png",
+      "kind": "rendered actual DVC dependency graph",
+      "source_command": "dvc dag --dot | dot -Tpng"
+    },
+    {
+      "file": "08_dvc_dag_terminal.png",
+      "kind": "actual terminal screenshot",
+      "source_command": "dvc dag"
+    }
+  ],
+  "experiment_id": "0",
+  "main_run_id": "fb66a49240734d50962ec8cf2d1a7164",
+  "tracking_uri": "https://dagshub.com/saadzafar0/modelforge.mlflow"
+}
