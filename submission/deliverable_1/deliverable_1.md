@@ -1,6 +1,6 @@
 # ModelForge — Deliverable 1
 
-Team: Sarem Waheed (23l-0885); Mamoon Chishti (23l-6050).
+Team: Saad Zafar (23l-0829); Sarem Waheed (23l-0885); Mamoon Chishti (23l-6050).
 
 GitHub: https://github.com/saadzafar0/modelforge
 DagsHub: https://dagshub.com/saadzafar0/modelforge

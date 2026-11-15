@@ -36,9 +36,9 @@ def main():
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle('BodySmall', parent=styles['BodyText'], fontSize=9, leading=12, spaceAfter=7))
     styles.add(ParagraphStyle('CaptionSmall', parent=styles['BodyText'], fontSize=8, leading=10,
-                             textColor=colors.HexColor('#4b5563'), spaceAfter=7))
-    styles['Title'].textColor = colors.HexColor('#143956')
-    styles['Heading2'].textColor = colors.HexColor('#143956')
+                             textColor=colors.black, spaceAfter=7))
+    for style in styles.byName.values():
+        style.textColor = colors.black
     story = []
 
     def p(text, style='BodySmall'):
@@ -48,10 +48,10 @@ def main():
         rows = [[Paragraph(escape(str(cell)), styles['BodySmall']) for cell in row] for row in rows]
         result = Table(rows, colWidths=widths, hAlign='LEFT', repeatRows=1)
         result.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#e9f0f7')),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#eeeeee')),
             ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-            ('LINEBELOW', (0, 0), (-1, 0), 0.7, colors.HexColor('#7590a5')),
-            ('GRID', (0, 1), (-1, -1), 0.25, colors.HexColor('#d7e1ea')),
+            ('LINEBELOW', (0, 0), (-1, 0), 0.7, colors.black),
+            ('GRID', (0, 1), (-1, -1), 0.25, colors.HexColor('#cccccc')),
             ('LEFTPADDING', (0, 0), (-1, -1), 7),
             ('RIGHTPADDING', (0, 0), (-1, -1), 7),
             ('TOPPADDING', (0, 0), (-1, -1), 4),
@@ -71,9 +71,9 @@ def main():
     # Page 1: project, source, implementation, and measured outcome.
     p('ModelForge', 'Title')
     p('Deliverable 1: Reproducible ML Pipeline', 'Heading2')
-    p(' &nbsp;&nbsp; | &nbsp;&nbsp; '.join(f'<b>{escape(member["name"])}</b> — {escape(member["student_id"])}'
-                                         for member in metadata['team']))
-    p(f'Prepared: {metadata["prepared_date"]}. Repository owner: {escape(metadata["repository_owner"])}.')
+    p('<br/>'.join(f'<b>{escape(member["name"])}</b> — {escape(member["student_id"])}'
+                   for member in metadata['team']))
+    p(f'Prepared: {metadata["prepared_date"]}.')
     p('<b>GitHub:</b> <link href="https://github.com/saadzafar0/modelforge">github.com/saadzafar0/modelforge</link><br/>'
       '<b>DagsHub:</b> <link href="https://dagshub.com/saadzafar0/modelforge">dagshub.com/saadzafar0/modelforge</link><br/>'
       '<b>MLflow:</b> <link href="https://dagshub.com/saadzafar0/modelforge.mlflow">dagshub.com/saadzafar0/modelforge.mlflow</link>')
@@ -172,20 +172,15 @@ def main():
       'scripts/evidence/ and scripts/reports/: real screenshots and PDF generation. '
       'apps/dashboard/, services/api/, and infra/aws/ reserve the later platform components.')
 
-    def footer(canvas, doc):
-        canvas.setFont('Helvetica', 8)
-        canvas.setFillColor(colors.HexColor('#64748b'))
-        canvas.drawString(42, 25, 'ModelForge | Deliverable 1 | 15 November 2026')
-        canvas.drawRightString(A4[0] - 42, 25, f'{doc.page} / 4')
-
     path = output / 'ModelForge_Deliverable_1.pdf'
     doc = SimpleDocTemplate(str(path), pagesize=A4, rightMargin=42, leftMargin=42,
                             topMargin=32, bottomMargin=38, title='ModelForge — Deliverable 1',
                             author='; '.join(member['name'] for member in metadata['team']))
-    doc.build(story, onFirstPage=footer, onLaterPages=footer)
+    doc.build(story)
+    team_text = '; '.join(f'{member["name"]} ({member["student_id"]})' for member in metadata['team'])
     markdown = f'''# ModelForge — Deliverable 1
 
-Team: Sarem Waheed (23l-0885); Mamoon Chishti (23l-6050).
+Team: {team_text}.
 
 GitHub: https://github.com/saadzafar0/modelforge
 DagsHub: https://dagshub.com/saadzafar0/modelforge
