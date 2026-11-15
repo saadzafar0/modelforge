@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-from modelforge.common import config, configure_tracking, read_json, write_json
-from modelforge.model import load_checkpoint
+from modelforge.utils.common import config, configure_tracking, read_json, write_json
+from modelforge.models.mlp import load_checkpoint
 
 
 def register() -> None:
@@ -39,7 +39,7 @@ def register() -> None:
         expected = model(X).argmax(1).numpy()
     if not np.array_equal(predictions, expected):
         raise RuntimeError('Hosted model predictions differ from the evaluated local checkpoint.')
-    write_json('reports/registry.json', {
+    write_json('reports/tracking/registry.json', {
         'model_name': name, 'version': str(version.version), 'stage': transitioned.current_stage,
         'run_id': run_id, 'tracking_uri': settings['uri'],
         'model_uri': f'models:/{name}/{version.version}',

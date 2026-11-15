@@ -1,0 +1,32 @@
+{
+  "id_excluded_from_features": true,
+  "label_mapping": {
+    "B": 0,
+    "M": 1
+  },
+  "preprocessing_fit_split": "train",
+  "seed": 42,
+  "splits": {
+    "test": {
+      "class_counts": {
+        "0": 72,
+        "1": 42
+      },
+      "rows": 114
+    },
+    "train": {
+      "class_counts": {
+        "0": 214,
+        "1": 127
+      },
+      "rows": 341
+    },
+    "validation": {
+      "class_counts": {
+        "0": 71,
+        "1": 43
+      },
+      "rows": 114
+    }
+  }
+}

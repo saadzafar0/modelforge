@@ -1,0 +1,13 @@
+ModelForge — DVC remote round-trip verification
+Endpoint: https://dagshub.com/saadzafar0/modelforge.s3
+Test uses a temporary project, not the project dataset.
+$ dvc add -q connection-check.txt
+$ dvc push
+1 file pushed
+Removed the temporary local file and its DVC cache.
+$ dvc pull
+A       connection-check.txt
+1 file fetched and 1 file added
+PASS: Downloaded bytes exactly match the uploaded bytes.
+Removed only the unique temporary test object from remote storage.
+PASS: DVC upload, fresh download, and integrity verification succeeded.

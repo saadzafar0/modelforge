@@ -5,7 +5,7 @@ ModelForge searches for small neural-network architectures for tabular classific
 - [GitHub repository](https://github.com/saadzafar0/modelforge)
 - [DagsHub repository and data storage](https://dagshub.com/saadzafar0/modelforge)
 - [Hosted MLflow experiments and model registry](https://dagshub.com/saadzafar0/modelforge.mlflow)
-- [Deliverable checklist](docs/deliverable_1_modelforge.md)
+- [Deliverable checklist](docs/deliverables/deliverable_1_checklist.md)
 
 ## Dataset and experiment
 
@@ -29,6 +29,7 @@ cd modelforge
 python3.12 -m venv .venv-ml
 source .venv-ml/bin/activate
 python -m pip install -r requirements.txt
+python -m pip install --no-deps -e .
 ```
 
 If you use `uv`, Python 3.12 and the environment can also be created with `uv python install 3.12` and `uv venv .venv-ml --python 3.12`. `requirements.in` records direct dependencies; `requirements.txt` pins transitive versions. The CPU PyTorch index is included in both files. Browser/PDF dependencies support submission evidence generation; no browser is required for model training.
@@ -53,7 +54,7 @@ If DVC reports a permission error opening its system state cache, set a project-
 dvc config --local core.site_cache_dir "$PWD/.dvc/tmp/site-cache"
 ```
 
-See [DagsHub setup details](docs/dagshub_setup.md). Private repositories require contributor access for MLflow and appropriate data access for DVC.
+See [DagsHub setup details](docs/setup/dagshub.md). Private repositories require contributor access for MLflow and appropriate data access for DVC.
 
 ## Run and reproduce
 
@@ -98,18 +99,18 @@ Tests cover invalid-input rejection, checkpoint round trips with residual projec
 
 ## Outputs and submission
 
-- `reports/validation.json`, `reports/splits.json`: data checks and split counts.
-- `reports/baseline_metrics.json`, `reports/nas_metrics.json`, `reports/comparison.json`: final evaluation.
-- `reports/registry.json`: remote model version, Staging state, and verified model URI.
+- `reports/data/validation.json`, `reports/data/splits.json`: data checks and split counts.
+- `reports/metrics/baseline.json`, `reports/metrics/nas.json`, `reports/metrics/comparison.json`: final evaluation.
+- `reports/tracking/registry.json`: remote model version, Staging state, and verified model URI.
 - `screenshots/deleiverable_1/`: actual terminal and hosted-MLflow evidence.
-- `submission/`: the 3–4 page deliverable PDF and supporting write-up.
+- `submission/deliverable_1/`: the 3–4 page deliverable PDF and supporting write-up.
 
 Evidence and the PDF can be refreshed after a completed pipeline:
 
 ```bash
 PLAYWRIGHT_BROWSERS_PATH=.browsers python -m playwright install chromium
-PLAYWRIGHT_BROWSERS_PATH=.browsers python scripts/capture_evidence.py
-python scripts/build_submission.py
+PLAYWRIGHT_BROWSERS_PATH=.browsers python scripts/evidence/capture_evidence.py
+python scripts/reports/build_submission.py
 ```
 
 The capture script signs in to the real hosted MLflow UI using local credentials and captures it. It does not generate imitation experiment/registry screens. Graphviz (`dot`) is used for the DVC diagram. Browser downloads are ignored by Git.
@@ -117,20 +118,39 @@ The capture script signs in to the real hosted MLflow UI using local credentials
 ## Structure
 
 ```text
-modelforge/       ingestion, validation, preprocessing, MLP, NAS, evaluation, registry
-tests/            data integrity, leakage, and model serialization checks
-scripts/          evidence capture and submission PDF generation
-docs/             proposal, assignment, setup guide, and checklist
-data/             DVC-managed raw and processed data (ignored by Git)
-models/           DVC-managed checkpoints and search outputs (ignored by Git)
-reports/          validation, evaluation, and registration results
-screenshots/      actual submission evidence
-submission/       final PDF and write-up
-dvc.yaml          named reproducible stages
-dvc.lock          data, dependency, and parameter versions
-params.yaml       dataset, split, training, search, and tracking configuration
-requirements.txt  pinned Python dependency lock
+src/modelforge/
+  data/             ingestion, validation, and preprocessing
+  models/           PyTorch architecture, checkpoints, MLflow inference
+  training/         baseline and Optuna NAS
+  evaluation/       metrics, figures, model comparison
+  tracking/         registry and hosted artifact verification
+  utils/            shared configuration and execution helpers
+  pipeline.py       DVC/CLI entry point
+apps/dashboard/     later web interface
+services/api/       later FastAPI service
+infra/aws/          later EC2/Docker deployment
+configs/            report metadata and team roster
+scripts/
+  evidence/         real hosted-UI and DVC graph captures
+  reports/          submission generation
+  verification/     optional reproduction verification
+docs/
+  architecture/     boundaries and complete-platform organization
+  setup/            DagsHub setup guide
+  deliverables/     milestone checklist
+tests/              existing integrity and checkpoint checks
+data/{raw,processed}/           DVC-managed data, ignored by Git
+models/{baseline,nas}/          DVC-managed checkpoints, ignored by Git
+reports/{data,metrics,classification,figures,tracking}/
+screenshots/deleiverable_1/      actual submission evidence
+submission/deliverable_1/        final PDF and write-up
+dvc.yaml, dvc.lock               pipeline and artifact versions
+params.yaml                     versioned ML settings
+pyproject.toml                  installable src package
+requirements.in, requirements.txt  direct and locked dependencies
 ```
+
+See [the architecture guide](docs/architecture/overview.md) for the complete project boundaries.
 
 ## Dataset attribution
 

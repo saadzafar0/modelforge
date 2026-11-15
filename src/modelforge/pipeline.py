@@ -8,19 +8,19 @@ def main():
                                          'evaluate-baseline', 'evaluate-nas', 'compare', 'register'])
     stage = parser.parse_args().stage
     if stage in ('ingest', 'validate', 'preprocess'):
-        from modelforge import data
+        from modelforge.data import pipeline as data
         getattr(data, stage)()
     elif stage in ('baseline', 'search'):
-        from modelforge import train
+        from modelforge.training import runner as train
         getattr(train, stage)()
     elif stage.startswith('evaluate-'):
-        from modelforge.evaluate import evaluate
+        from modelforge.evaluation.runner import evaluate
         evaluate(stage.split('-', 1)[1])
     elif stage == 'compare':
-        from modelforge.evaluate import compare
+        from modelforge.evaluation.runner import compare
         compare()
     else:
-        from modelforge.registry import register
+        from modelforge.tracking.registry import register
         register()
 
 

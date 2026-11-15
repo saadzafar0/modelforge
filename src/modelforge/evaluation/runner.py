@@ -14,9 +14,9 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 import torch
 
-from modelforge.common import config, configure_tracking, read_json, seed_everything, write_json
-from modelforge.inference import TabularMLP
-from modelforge.model import load_checkpoint
+from modelforge.utils.common import config, configure_tracking, read_json, seed_everything, write_json
+from modelforge.models.inference import TabularMLP
+from modelforge.models.mlp import load_checkpoint
 
 
 def evaluate(role: str) -> None:
@@ -46,11 +46,12 @@ def evaluate(role: str) -> None:
         'checkpoint_size_bytes': (folder / 'checkpoint.pt').stat().st_size,
         'parameter_count': sum(p.numel() for p in model.parameters()), 'test_rows': len(test['y']),
     }
-    write_json(f'reports/{role}_metrics.json', metrics)
+    write_json(f'reports/metrics/{role}.json', metrics)
     report = classification_report(test['y'], predictions, labels=[0, 1],
                                     target_names=['benign', 'malignant'], output_dict=True, zero_division=0)
-    write_json(f'reports/{role}_classification.json', report)
+    write_json(f'reports/classification/{role}.json', report)
     cm = confusion_matrix(test['y'], predictions, labels=[0, 1])
+    Path('reports/figures').mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(4, 3))
     ax.imshow(cm, cmap='Blues')
     for (i, j), value in np.ndenumerate(cm):
@@ -58,7 +59,7 @@ def evaluate(role: str) -> None:
     ax.set(xticks=[0, 1], yticks=[0, 1], xticklabels=['Benign', 'Malignant'],
            yticklabels=['Benign', 'Malignant'], xlabel='Predicted', ylabel='Actual', title=f'{role}: held-out test')
     fig.tight_layout()
-    fig.savefig(f'reports/{role}_confusion_matrix.png', dpi=160)
+    fig.savefig(f'reports/figures/{role}_confusion_matrix.png', dpi=160)
     plt.close(fig)
     summary = read_json(folder / 'summary.json')
     mlflow = configure_tracking()
@@ -67,15 +68,16 @@ def evaluate(role: str) -> None:
                                    'probability_malignant': probabilities[:3, 1]})
     with mlflow.start_run(run_id=summary['run_id']):
         mlflow.log_metrics(metrics)
-        for suffix in ('metrics.json', 'classification.json', 'confusion_matrix.png'):
-            mlflow.log_artifact(f'reports/{role}_{suffix}', artifact_path='evaluation')
+        for artifact in (f'reports/metrics/{role}.json', f'reports/classification/{role}.json',
+                         f'reports/figures/{role}_confusion_matrix.png'):
+            mlflow.log_artifact(artifact, artifact_path='evaluation')
         mlflow.set_tag('latency_scope', 'CPU model forward pass; batch=1; excludes preprocessing and network')
         mlflow.pyfunc.log_model(
             artifact_path='model', python_model=TabularMLP(),
             artifacts={'checkpoint': str(folder / 'checkpoint.pt'),
                        'preprocessor': 'data/processed/preprocessor.joblib',
                        'features': 'data/processed/features.json'},
-            code_paths=['modelforge'], pip_requirements='requirements.txt',
+            code_paths=['src/modelforge'], pip_requirements='requirements.txt',
             signature=infer_signature(original, example_output), input_example=original,
         )
     print(f'{role}: accuracy={metrics["test_accuracy"]:.4f}, macro F1={metrics["test_macro_f1"]:.4f}')
@@ -83,12 +85,12 @@ def evaluate(role: str) -> None:
 
 def compare() -> None:
     report = {
-        'baseline': read_json('reports/baseline_metrics.json'),
-        'nas': read_json('reports/nas_metrics.json'),
+        'baseline': read_json('reports/metrics/baseline.json'),
+        'nas': read_json('reports/metrics/nas.json'),
         'selection_used_test_data': False,
         'selection_rule': config()['evaluation']['selection_rule'],
         'latency_scope': 'CPU model forward pass, batch=1; preprocessing and network excluded',
         'latency_note': 'Wall-clock measurements vary with machine load; predictive results use fixed seeds.',
     }
-    write_json('reports/comparison.json', report)
+    write_json('reports/metrics/comparison.json', report)
     print('Saved baseline/main comparison on the same held-out test split.')

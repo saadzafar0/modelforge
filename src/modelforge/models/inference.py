@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import torch
 
-from modelforge.model import load_checkpoint
+from modelforge.models.mlp import load_checkpoint
 
 
 class TabularMLP(mlflow.pyfunc.PythonModel):

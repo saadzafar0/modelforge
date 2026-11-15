@@ -12,8 +12,8 @@ import torch
 from sklearn.metrics import accuracy_score, f1_score
 from torch import nn
 
-from modelforge.common import config, configure_tracking, data_tags, seed_everything, write_json
-from modelforge.model import MLP
+from modelforge.utils.common import config, configure_tracking, data_tags, seed_everything, write_json
+from modelforge.models.mlp import MLP
 
 
 def log_history(run_id: str, history: list[dict]) -> None:
@@ -104,8 +104,8 @@ def baseline() -> None:
         summary = train_one(architecture, output / 'checkpoint.pt', history)
         log_history(run.info.run_id, history)
         mlflow.log_metrics({k: v for k, v in summary.items() if isinstance(v, (int, float))})
-        mlflow.log_artifact('reports/validation.json', artifact_path='data')
-        mlflow.log_artifact('reports/splits.json', artifact_path='data')
+        mlflow.log_artifact('reports/data/validation.json', artifact_path='data')
+        mlflow.log_artifact('reports/data/splits.json', artifact_path='data')
         mlflow.log_artifact('params.yaml')
         summary['run_id'] = run.info.run_id
         write_json(output / 'summary.json', summary)
@@ -183,7 +183,7 @@ def search() -> None:
         mlflow.log_param('selected_trial', selected['trial'])
         mlflow.log_dict(selected['architecture'], 'selected_architecture.json')
         mlflow.log_artifact(str(output / 'trials.json'))
-        mlflow.log_artifact('reports/validation.json', artifact_path='data')
-        mlflow.log_artifact('reports/splits.json', artifact_path='data')
+        mlflow.log_artifact('reports/data/validation.json', artifact_path='data')
+        mlflow.log_artifact('reports/data/splits.json', artifact_path='data')
         mlflow.log_artifact('params.yaml')
     print(f'Selected trial {selected["trial"]}; held-out test data were not used for search.')

@@ -2,7 +2,7 @@
 
 Build a reproducible pipeline that takes a structured classification dataset through validation, preprocessing, baseline training, neural architecture search (NAS), evaluation, and remote experiment tracking/model registration.
 
-ModelForge follows the **Standard ML** requirements in [the original deliverable](delieverable_1.md). The RAG, LLM, agentic, and reinforcement learning alternatives do not apply.
+ModelForge follows the **Standard ML** requirements in [the original deliverable](../delieverable_1.md). The RAG, LLM, agentic, and reinforcement learning alternatives do not apply.
 
 The checklists below contain the applicable submission requirements. The implementation notes explain how to apply them to ModelForge; suggested choices are not additional assignment requirements.
 

@@ -13,6 +13,9 @@ mlruns/
 mlartifacts/
 *.log
 reports/.work/
+*.egg-info/
+/build/
+/dist/
 /data/raw/
 /data/processed/
 /models/

@@ -27,7 +27,7 @@ The token shared in the conversation was used to verify the connection. Revoke t
 Run from the repository root in Bash:
 
 ```bash
-source .venv/bin/activate
+source .venv-ml/bin/activate
 read -rsp "New DagsHub token: " MODELFORGE_DVC_TOKEN
 printf '\n'
 dvc remote modify --local origin access_key_id "$MODELFORGE_DVC_TOKEN"
@@ -48,7 +48,7 @@ On 2026-11-15, an isolated temporary DVC project successfully:
 
 This verifies DVC upload and download access. It does not stand in for versioning the actual project dataset, running the ML pipeline, or creating MLflow experiments.
 
-The command transcript and screenshots are in [`screenshots/deleiverable_1`](../screenshots/deleiverable_1/).
+The command transcript and screenshots are in [`screenshots/deleiverable_1`](../../screenshots/deleiverable_1/).
 
 ## Add the real dataset later
 

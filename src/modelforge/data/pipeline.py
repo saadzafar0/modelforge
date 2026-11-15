@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from modelforge.common import config, sha256, write_json
+from modelforge.utils.common import config, sha256, write_json
 
 MEASUREMENTS = ('radius', 'texture', 'perimeter', 'area', 'smoothness', 'compactness',
                 'concavity', 'concave_points', 'symmetry', 'fractal_dimension')
@@ -78,7 +78,7 @@ def validate() -> None:
     frame = pd.read_csv('data/raw/dataset.csv', dtype={'id': str})
     report = validate_frame(frame, config()['dataset'])
     report['csv_sha256'] = sha256('data/raw/dataset.csv')
-    write_json('reports/validation.json', report)
+    write_json('reports/data/validation.json', report)
     print('Validation passed: schema, nulls, labels, IDs, numeric types, and ranges.')
 
 
@@ -113,5 +113,5 @@ def preprocess() -> None:
             'class_counts': {str(c): int((labels[indexes] == c).sum()) for c in (0, 1)},
         }
     frame.iloc[test][FEATURES].to_csv(output / 'test_features.csv', index=False)
-    write_json('reports/splits.json', report)
+    write_json('reports/data/splits.json', report)
     print('Saved stratified 60/20/20 splits and preprocessing fitted on training data only.')
