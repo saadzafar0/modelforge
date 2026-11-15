@@ -1,0 +1,144 @@
+stages:
+  ingest:
+    cmd: python -m modelforge.pipeline ingest
+    deps:
+      - modelforge/data.py
+      - modelforge/common.py
+      - requirements.txt
+    params:
+      - dataset
+    outs:
+      - data/raw
+  validate:
+    cmd: python -m modelforge.pipeline validate
+    deps:
+      - data/raw
+      - modelforge/data.py
+      - modelforge/common.py
+    params:
+      - dataset
+    outs:
+      - reports/validation.json:
+          cache: false
+  preprocess:
+    cmd: python -m modelforge.pipeline preprocess
+    deps:
+      - data/raw
+      - reports/validation.json
+      - modelforge/data.py
+      - modelforge/common.py
+      - requirements.txt
+    params:
+      - project
+      - split
+      - dataset
+    outs:
+      - data/processed
+      - reports/splits.json:
+          cache: false
+  train_baseline:
+    cmd: python -m modelforge.pipeline baseline
+    deps:
+      - data/processed
+      - reports/validation.json
+      - reports/splits.json
+      - modelforge/train.py
+      - modelforge/model.py
+      - modelforge/common.py
+      - requirements.txt
+    params:
+      - project
+      - baseline
+      - training
+      - tracking
+    outs:
+      - models/baseline
+  search_and_train:
+    cmd: python -m modelforge.pipeline search
+    deps:
+      - data/processed
+      - reports/validation.json
+      - reports/splits.json
+      - modelforge/train.py
+      - modelforge/model.py
+      - modelforge/common.py
+      - requirements.txt
+    params:
+      - project
+      - search
+      - training
+      - tracking
+      - evaluation.selection_rule
+    outs:
+      - models/nas
+  evaluate_baseline:
+    cmd: python -m modelforge.pipeline evaluate-baseline
+    deps:
+      - data/processed
+      - models/baseline
+      - modelforge/evaluate.py
+      - modelforge/inference.py
+      - modelforge/model.py
+      - modelforge/common.py
+      - requirements.txt
+    params:
+      - project
+      - tracking
+      - evaluation
+    metrics:
+      - reports/baseline_metrics.json:
+          cache: false
+    outs:
+      - reports/baseline_classification.json:
+          cache: false
+      - reports/baseline_confusion_matrix.png:
+          cache: false
+  evaluate_nas:
+    cmd: python -m modelforge.pipeline evaluate-nas
+    deps:
+      - data/processed
+      - models/nas
+      - modelforge/evaluate.py
+      - modelforge/inference.py
+      - modelforge/model.py
+      - modelforge/common.py
+      - requirements.txt
+    params:
+      - project
+      - tracking
+      - evaluation
+    metrics:
+      - reports/nas_metrics.json:
+          cache: false
+    outs:
+      - reports/nas_classification.json:
+          cache: false
+      - reports/nas_confusion_matrix.png:
+          cache: false
+  compare:
+    cmd: python -m modelforge.pipeline compare
+    deps:
+      - reports/baseline_metrics.json
+      - reports/nas_metrics.json
+      - modelforge/evaluate.py
+      - modelforge/common.py
+    params:
+      - evaluation.selection_rule
+    outs:
+      - reports/comparison.json:
+          cache: false
+  register:
+    cmd: python -m modelforge.pipeline register
+    deps:
+      - models/nas
+      - data/processed
+      - reports/nas_metrics.json
+      - modelforge/registry.py
+      - modelforge/inference.py
+      - modelforge/model.py
+      - modelforge/common.py
+    params:
+      - tracking
+    outs:
+      - reports/registry.json:
+          cache: false

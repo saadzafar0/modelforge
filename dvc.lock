@@ -1,0 +1,195 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python -m modelforge.pipeline ingest
+    deps:
+    - path: modelforge/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    - path: modelforge/data.py
+      hash: md5
+      md5: 293c86fb23ce9b530f5039917a4c23f1
+      size: 5873
+      isexec: true
+    - path: requirements.txt
+      hash: md5
+      md5: ed38bcfe8f76730eb76a88efa79674cd
+      size: 9508
+      isexec: true
+    params:
+      params.yaml:
+        dataset:
+          name: UCI Wisconsin Diagnostic Breast Cancer
+          url: 
+            https://archive.ics.uci.edu/static/public/17/breast+cancer+wisconsin+diagnostic.zip
+          sha256: 
+            bc154869ef13f753f9e2b5a17e248cfe1ba4b6721db7c4da9f4880e40b05d3af
+          expected_rows: 569
+          max_rows: 10000
+          max_features: 30
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 9e8e2080648d0ae0a4b927e6b9f60dd8.dir
+      size: 254907
+      nfiles: 4
+  validate:
+    cmd: python -m modelforge.pipeline validate
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 9e8e2080648d0ae0a4b927e6b9f60dd8.dir
+      size: 254907
+      nfiles: 4
+    - path: modelforge/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    - path: modelforge/data.py
+      hash: md5
+      md5: 293c86fb23ce9b530f5039917a4c23f1
+      size: 5873
+      isexec: true
+    params:
+      params.yaml:
+        dataset:
+          name: UCI Wisconsin Diagnostic Breast Cancer
+          url: 
+            https://archive.ics.uci.edu/static/public/17/breast+cancer+wisconsin+diagnostic.zip
+          sha256: 
+            bc154869ef13f753f9e2b5a17e248cfe1ba4b6721db7c4da9f4880e40b05d3af
+          expected_rows: 569
+          max_rows: 10000
+          max_features: 30
+    outs:
+    - path: reports/validation.json
+      hash: md5
+      md5: cf8052302b6c1a642256515cb709eed6
+      size: 2594
+      isexec: true
+  preprocess:
+    cmd: python -m modelforge.pipeline preprocess
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 9e8e2080648d0ae0a4b927e6b9f60dd8.dir
+      size: 254907
+      nfiles: 4
+    - path: modelforge/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    - path: modelforge/data.py
+      hash: md5
+      md5: 293c86fb23ce9b530f5039917a4c23f1
+      size: 5873
+      isexec: true
+    - path: reports/validation.json
+      hash: md5
+      md5: cf8052302b6c1a642256515cb709eed6
+      size: 2594
+      isexec: true
+    - path: requirements.txt
+      hash: md5
+      md5: ed38bcfe8f76730eb76a88efa79674cd
+      size: 9508
+      isexec: true
+    params:
+      params.yaml:
+        dataset:
+          name: UCI Wisconsin Diagnostic Breast Cancer
+          url: 
+            https://archive.ics.uci.edu/static/public/17/breast+cancer+wisconsin+diagnostic.zip
+          sha256: 
+            bc154869ef13f753f9e2b5a17e248cfe1ba4b6721db7c4da9f4880e40b05d3af
+          expected_rows: 569
+          max_rows: 10000
+          max_features: 30
+        project:
+          seed: 42
+          cpu_threads: 1
+        split:
+          test_fraction: 0.2
+          validation_fraction: 0.2
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 45b8f546f322eec1453887ba09f517d3.dir
+      size: 94884
+      nfiles: 6
+    - path: reports/splits.json
+      hash: md5
+      md5: 52b4494e98fb60dff4d5c8fac5642ba8
+      size: 483
+      isexec: true
+  train_baseline:
+    cmd: python -m modelforge.pipeline baseline
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 45b8f546f322eec1453887ba09f517d3.dir
+      size: 94884
+      nfiles: 6
+    - path: modelforge/common.py
+      hash: md5
+      md5: d2663e097b473756ed096cf539d6d02c
+      size: 2174
+      isexec: true
+    - path: modelforge/model.py
+      hash: md5
+      md5: f590a95e5c06b9fcc335eeb74eb406a5
+      size: 1391
+      isexec: true
+    - path: modelforge/train.py
+      hash: md5
+      md5: 149654da9a60659e7098fd7d08d7bae3
+      size: 9494
+      isexec: true
+    - path: reports/splits.json
+      hash: md5
+      md5: 52b4494e98fb60dff4d5c8fac5642ba8
+      size: 483
+      isexec: true
+    - path: reports/validation.json
+      hash: md5
+      md5: cf8052302b6c1a642256515cb709eed6
+      size: 2594
+      isexec: true
+    - path: requirements.txt
+      hash: md5
+      md5: ed38bcfe8f76730eb76a88efa79674cd
+      size: 9508
+      isexec: true
+    params:
+      params.yaml:
+        baseline:
+          hidden_sizes:
+          - 64
+          activation: ReLU
+          dropout: 0.0
+          residual: false
+        project:
+          seed: 42
+          cpu_threads: 1
+        tracking:
+          uri: https://dagshub.com/saadzafar0/modelforge.mlflow
+          username: saadzafar0
+          experiment: ModelForge-Deliverable-1
+          model_name: ModelForge-WDBC-MLP
+        training:
+          max_epochs: 100
+          patience: 12
+          batch_size: 64
+          learning_rate: 0.001
+          weight_decay: 0.0001
+          min_delta: 0.0001
+    outs:
+    - path: models/baseline
+      hash: md5
+      md5: d0e2c14b3572eff5d1cc170ac9e7d438.dir
+      size: 25230
+      nfiles: 3

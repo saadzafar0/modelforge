@@ -1,0 +1,43 @@
+project:
+  seed: 42
+  cpu_threads: 1
+dataset:
+  name: UCI Wisconsin Diagnostic Breast Cancer
+  url: https://archive.ics.uci.edu/static/public/17/breast+cancer+wisconsin+diagnostic.zip
+  sha256: bc154869ef13f753f9e2b5a17e248cfe1ba4b6721db7c4da9f4880e40b05d3af
+  expected_rows: 569
+  max_rows: 10000
+  max_features: 30
+split:
+  test_fraction: 0.2
+  validation_fraction: 0.2
+training:
+  max_epochs: 100
+  patience: 12
+  batch_size: 64
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  min_delta: 0.0001
+baseline:
+  hidden_sizes: [64]
+  activation: ReLU
+  dropout: 0.0
+  residual: false
+search:
+  trials: 10
+  startup_trials: 4
+  pruning_warmup_epochs: 10
+  hidden_layers: [1, 4]
+  widths: [32, 64, 128, 256]
+  activations: [ReLU, GELU, Tanh]
+  dropout: [0.0, 0.4]
+  residual: [false, true]
+tracking:
+  uri: https://dagshub.com/saadzafar0/modelforge.mlflow
+  username: saadzafar0
+  experiment: ModelForge-Deliverable-1
+  model_name: ModelForge-WDBC-MLP
+evaluation:
+  latency_warmups: 20
+  latency_repeats: 200
+  selection_rule: validation_macro_f1_then_fewer_parameters
